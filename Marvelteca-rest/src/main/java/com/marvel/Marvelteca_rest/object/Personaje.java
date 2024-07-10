@@ -1,3 +1,5 @@
+package com.marvel.Marvelteca_rest.object;
+
 import lombok.Data;
 import java.util.Date;
 import java.util.List;

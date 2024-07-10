@@ -1,3 +1,5 @@
+package com.marvel.Marvelteca_rest.object;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
