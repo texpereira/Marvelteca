@@ -30,30 +30,24 @@ public class MarvelService {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
-    
-        // método para obtener datos de la API utilizando valores de las propiedades
-        public String getDataFromApi() {
+    public String getDatacharacterId(String personaje) {
+        getDataFromApi(personaje);
 
-            // Generar el timestamp actual en segundos
+        return "";
+    }
+        public String getDataFromApi(String personaje) {
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000L);
-
-        // Generar el hash
         String hash = generateHash(timestamp, privateKey, apiKey);
-            // Configurar los encabezados
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Accept", "*/*");
-    
-            // Construir la URL con los parámetros
-            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Accept", "*/*");
+
+            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl.concat(personaje))
                 .queryParam("apikey", apiKey)
                 .queryParam("ts", timestamp)
                 .queryParam("hash", hash);
-    
-            // Crear la entidad de la solicitud con los encabezados
             HttpEntity<String> entity = new HttpEntity<>(headers);
             RestTemplate restTemplate = new RestTemplate();
     
-            // Realizar la solicitud GET
             ResponseEntity<String> response = restTemplate.exchange(
                 uriBuilder.toUriString(),
                 HttpMethod.GET,
@@ -65,7 +59,7 @@ public class MarvelService {
             return response.getBody();
         }
 
-          private String generateHash(String ts, String privateKey, String publicKey) {
+        private String generateHash(String ts, String privateKey, String publicKey) {
         try {
             String valueToHash = ts + privateKey + publicKey;
             MessageDigest md = MessageDigest.getInstance("MD5");
