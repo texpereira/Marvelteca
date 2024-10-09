@@ -31,9 +31,8 @@ public class MarvelService {
         return new RestTemplate();
     }
     public String getDatacharacterId(String personaje) {
-        getDataFromApi(personaje);
 
-        return "";
+        return getDataFromApi(personaje);
     }
         public String getDataFromApi(String personaje) {
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000L);
