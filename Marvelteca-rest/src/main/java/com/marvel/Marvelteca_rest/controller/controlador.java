@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.marvel.Marvelteca_rest.services.MarvelService;
 
@@ -15,15 +14,15 @@ public class controlador {
     @Autowired
     private MarvelService marvelService;
 
-    @GetMapping("/aaa")
+    @GetMapping("/marvel/{characterId}")
     public String getApiData() {
-        String apiUrl = "http://gateway.marvel.com/v1/public/characters";
-        String apiKey = "7b0e8624af849eee2948448934d27972"; // Reemplaza esto con tu clave real
-        return marvelService.getDataFromApi();
+        String apiUrl = "marvel/characterId";
+        return marvelService.getDatacharacterId(apiUrl);
     }
 
     @GetMapping("/marvel") //se borra espacio de prueba
     public String getComics() {
-        return marvelService.getDataFromApi();
+        String apiUrl = "characters";
+        return marvelService.getDataFromApi(apiUrl);
     }
 }
