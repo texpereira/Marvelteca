@@ -1,7 +1,5 @@
 package com.marvel.Marvelteca_rest.services;
 
-
-
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -30,35 +28,38 @@ public class MarvelService {
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
+
     public String getDatacharacterId(String personaje) {
 
         return getDataFromApi(personaje);
     }
-        public String getDataFromApi(String personaje) {
+
+    public String getDataFromApi(String personaje) {
         String timestamp = String.valueOf(System.currentTimeMillis() / 1000L);
         String hash = generateHash(timestamp, privateKey, apiKey);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Accept", "*/*");
 
-            UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl.concat(personaje))
+        UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl.concat(personaje))
                 .queryParam("apikey", apiKey)
                 .queryParam("ts", timestamp)
                 .queryParam("hash", hash);
-            HttpEntity<String> entity = new HttpEntity<>(headers);
-            RestTemplate restTemplate = new RestTemplate();
-    
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        RestTemplate restTemplate = new RestTemplate();
+        try {
             ResponseEntity<String> response = restTemplate.exchange(
-                uriBuilder.toUriString(),
-                HttpMethod.GET,
-                entity,
-                String.class
-            );
-    
-            // Devolver la respuesta del cuerpo
-            return response.getBody();
+                    uriBuilder.toUriString(),
+                    HttpMethod.GET,
+                    entity,
+                    String.class);
+        return response.getBody();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return "";
         }
+    }
 
-        private String generateHash(String ts, String privateKey, String publicKey) {
+    private String generateHash(String ts, String privateKey, String publicKey) {
         try {
             String valueToHash = ts + privateKey + publicKey;
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -74,5 +75,4 @@ public class MarvelService {
         }
     }
 
-    
 }

@@ -44,7 +44,7 @@ public class controlador {
         String apiUrl = "comics/" + comicId;
         String response = marvelService.getDataFromApi(apiUrl);
         if (response.isEmpty() || response.equals("")) {
-            return "Not found";
+            return "No ha sido posible encontrar el Comics con el ID = " +comicId;
         } else {
             return response;
         }
