@@ -1,10 +1,11 @@
 package com.marvel.Marvelteca_rest.object;
 
-import lombok.Data;
 import java.util.Date;
 import java.util.List;
+
+import lombok.Data;
 @Data
-public class Personaje {
+public class Character {
         private Integer id;
         private String name;
         private String description;
@@ -16,5 +17,5 @@ public class Personaje {
 //        stories (StoryList, opcional)
 //        events (EventList, opcional)
 //        series (SeriesList, opcional)
-public Personaje (){}
+public Character (){}
 }
