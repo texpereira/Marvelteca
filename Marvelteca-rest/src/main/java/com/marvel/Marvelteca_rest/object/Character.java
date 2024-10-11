@@ -13,9 +13,9 @@ public class Character {
         private String resourceURI;
         private List <Url> urls;
         private Image thumbnail;
-//        comics (ComicList, opcional)
-//        stories (StoryList, opcional)
-//        events (EventList, opcional)
-//        series (SeriesList, opcional)
+        private List <ComicList> comics;
+        private List <StoryList> stories;
+        private List <EventList> events;
+        private List <SeriesList> series;
 public Character (){}
 }
