@@ -1,7 +1,8 @@
 package com.marvel.Marvelteca_rest.services;
-
+import java.lang.reflect.Type;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
 
 @Service
 public class MarvelService {
@@ -52,11 +59,24 @@ public class MarvelService {
                     HttpMethod.GET,
                     entity,
                     String.class);
+jsonToObject(response.getBody());
         return response.getBody();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return "";
         }
+    }
+    public Object jsonToObject(String response) {
+        Gson gson = new Gson();
+        JsonObject jsonResponse = gson.fromJson(response, JsonObject.class);
+        JsonObject data = jsonResponse.getAsJsonObject("data");
+        JsonArray results = data.getAsJsonArray("results");
+        Type characterListType = new TypeToken<List<Character>>() {}.getType();
+        List<Character> characters = gson.fromJson(results, characterListType);
+        for (Character character : characters) {
+            System.out.println(character);
+        }
+        return characters.get(0);
     }
 
     private String generateHash(String ts, String privateKey, String publicKey) {

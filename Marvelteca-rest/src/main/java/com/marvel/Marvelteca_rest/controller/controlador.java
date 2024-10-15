@@ -6,10 +6,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.marvel.Marvelteca_rest.object.Character;
 import com.marvel.Marvelteca_rest.services.MarvelService;
 
 @RestController
-@RequestMapping("/marvel")
+@RequestMapping("/marvel") //para buscar interface se empieza con /marvel
 public class controlador {
     
     @Autowired
@@ -21,9 +25,19 @@ public class controlador {
         return marvelService.getDataFromApi(apiUrl);
     }
 
-    @GetMapping("/character/{characterId}")
+    @GetMapping("/character/{characterId}") // Interface characterID
     public String getApiData(@PathVariable int characterId) {
         String apiUrl = "characters/" + characterId;
+        String jsonString = marvelService.getDatacharacterId(apiUrl);
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            Character character = objectMapper.readValue(jsonString, Character.class);
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        
         return marvelService.getDatacharacterId(apiUrl);
     }
     
