@@ -11,11 +11,11 @@ public class Character {
         private String description;
         private Date modified;
         private String resourceURI;
-        private List <Url> urls;
+        private List<Url> urls;
         private Image thumbnail;
-        private List <ComicList> comics;
-        private List <StoryList> stories;
-        private List <EventList> events;
-        private List <SeriesList> series;
+        private ComicList comics;
+        private StoryList stories;
+        private EventList events;
+        private SeriesList series;
 public Character (){}
 }

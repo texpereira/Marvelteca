@@ -57,7 +57,7 @@ public class controlador {
     public String getComicId(@PathVariable int comicId) {
         String apiUrl = "comics/" + comicId;
         String response = marvelService.getDataFromApi(apiUrl);
-        if (response.isEmpty() || response.equals("")) {
+        if (response.isEmpty() || response.equals("")) /*compara los valores si esta "vacia" la consulta o (or||) "" entrega respuesta vacia, se pasa a la respuesta del error*/{
             return "No ha sido posible encontrar el Comics con el ID = " +comicId;
         } else {
             return response;

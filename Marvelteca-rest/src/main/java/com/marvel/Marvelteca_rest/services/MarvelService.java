@@ -69,15 +69,32 @@ jsonToObject(response.getBody());
     public Object jsonToObject(String response) {
         Gson gson = new Gson();
         JsonObject jsonResponse = gson.fromJson(response, JsonObject.class);
-        JsonObject data = jsonResponse.getAsJsonObject("data");
-        JsonArray results = data.getAsJsonArray("results");
-        Type characterListType = new TypeToken<List<Character>>() {}.getType();
-        List<Character> characters = gson.fromJson(results, characterListType);
-        for (Character character : characters) {
-            System.out.println(character);
+    
+        // Verificar la estructura del JSON
+        System.out.println("JSON Response: " + jsonResponse);
+    
+        if (jsonResponse.has("data")) {
+            JsonObject data = jsonResponse.getAsJsonObject("data");
+    
+            // Verificar si 'results' es un JsonArray y deserializarlo
+            if (data.get("results").isJsonArray()) {
+                JsonArray results = data.getAsJsonArray("results");
+                Type characterListType = new TypeToken<List<Character>>() {}.getType();
+                List<Character> characters = gson.fromJson(results, characterListType);
+                for (Character character : characters) {
+                    System.out.println(character);
+                }
+                return characters.get(0);
+            } else {
+                System.out.println("Unexpected JSON structure for 'results'");
+                return null;
+            }
+        } else {
+            System.out.println("Unexpected JSON structure, 'data' key missing");
+            return null;
         }
-        return characters.get(0);
     }
+    
 
     private String generateHash(String ts, String privateKey, String publicKey) {
         try {
